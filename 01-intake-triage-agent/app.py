@@ -315,12 +315,12 @@ if st.button("Analyze Request", type="primary"):
         st.write(f"**Recommended Delivery:** {delivery_recommendation}")
         st.write(f"**Escalation Required:** {escalation_required}")
 
-        st.subheader("AI-Generated Executive Summary")
+        st.subheader("AI-Generated Executive Brief")
 
         if not os.getenv("OPENAI_API_KEY"):
             st.error("OpenAI API key not found.")
         else:
-            with st.spinner("Generating executive summary..."):
+            with st.spinner("Generating executive brief..."):
 
                 ai_summary = generate_ai_summary(
                     request,
@@ -330,4 +330,16 @@ if st.button("Analyze Request", type="primary"):
                     delivery_recommendation
                 )
 
+                st.success("AI executive brief generated successfully.")
+
+                st.markdown("### Executive Interpretation")
+
                 st.write(ai_summary)
+
+                st.markdown("---")
+
+                st.caption(
+                    "Note: This AI-generated brief is based on synthetic portfolio data and should be reviewed by a human before use."
+                )
+
+    

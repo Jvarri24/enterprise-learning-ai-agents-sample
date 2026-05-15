@@ -1,72 +1,121 @@
-# Enterprise Learning AI Agents
+# Learning Intake Triage Agent
 
-A portfolio of simulated AI-enabled workflow tools designed to demonstrate practical applications of generative AI and operational automation within enterprise learning ecosystems.
-
-These projects use fictional organizations and synthetic business scenarios only. No proprietary or confidential data is included.
+An AI-assisted enterprise learning intake prototype designed to simulate how Learning & Development teams can prioritize, evaluate, and respond to incoming training requests using operational scoring logic and generative AI.
 
 ---
 
-# Current Prototype
+# Overview
 
-## Learning Intake Triage Agent
+This prototype demonstrates how enterprise learning operations teams can streamline intake governance workflows by combining:
 
-A simulated decision-support tool designed to help enterprise learning teams prioritize and evaluate incoming training requests.
+- rules-based prioritization
+- business impact scoring
+- stakeholder complexity analysis
+- compliance evaluation
+- AI-generated executive summaries
 
-### Business Problem
+The application is designed using fictional business scenarios and synthetic operational workflows for portfolio demonstration purposes.
 
-Enterprise learning teams often receive inconsistent training requests with varying levels of urgency, compliance risk, business impact, and stakeholder complexity. Intake and prioritization processes are frequently manual, inconsistent, and difficult to scale.
+---
 
-### Solution
+# Current Capabilities
 
-This prototype demonstrates a lightweight intake triage workflow capable of evaluating training requests and generating operational recommendations based on weighted business criteria.
+## Intake Workflow
 
-### Current Features
+The application collects structured intake information including:
 
-- Training request intake form
-- Priority scoring logic
-- Compliance risk evaluation
-- Business impact analysis
-- Stakeholder complexity assessment
-- Delivery modality recommendations
-- Suggested implementation timelines
-- Escalation recommendations
-- Executive-style operational outputs
+- training request details
+- audience scale
+- urgency
+- business impact
+- compliance risk
+- stakeholder complexity
+- requested delivery modality
 
-### Tech Stack
+---
+
+## Operational Scoring Logic
+
+The system evaluates requests using weighted logic to estimate:
+
+- priority level
+- implementation risk
+- escalation requirements
+- recommended timeline
+- recommended delivery strategy
+
+---
+
+## AI-Generated Executive Brief
+
+Using OpenAI API integration, the application generates:
+
+- executive intake summaries
+- key operational risks
+- stakeholder considerations
+- recommended next actions
+
+---
+
+# Technology Stack
 
 - Python
 - Streamlit
-- GitHub Codespaces
+- OpenAI API
+- Pandas
 
-### Future Enhancements
+---
 
-- OpenAI-generated executive summaries
-- AI-generated stakeholder recommendations
-- Retrieval-Augmented Generation (RAG) knowledge assistant
-- Learning analytics copilot
-- Synthetic training request datasets
-- Public deployment and live demo access
+# Example Use Cases
+
+Example fictional use cases include:
+
+- compliance training rollouts
+- enterprise communications training
+- onboarding initiatives
+- operational readiness programs
+- leadership enablement requests
+
+---
+
+# Running the Application
+
+## Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+## Run the Streamlit app
+
+```bash
+streamlit run app.py
+```
+
+---
+
+# Future Enhancements
+
+Planned enhancements include:
+
+- downloadable executive reports
+- synthetic intake datasets
+- analytics dashboard integration
+- RAG-based governance assistant
+- document upload workflows
+- historical intake tracking
+- enterprise reporting visualizations
 
 ---
 
 # Disclaimer
 
-All projects within this repository use synthetic business scenarios and fictional organizational data for portfolio demonstration purposes only.
+This project uses fictional business scenarios and synthetic operational examples only.
 
-# Screenshots
+No proprietary organizational data or confidential information is included.
 
-## Intake Form Interface
+---
 
-![Intake Form Interface](docs/Agent-Interface.png)
+# Author
 
-## Intake Form Filled Out
-
-![Intake Form Filled Out](docs/Agent-Interface.png)
-
-## Triage Recommendation Output
-
-![Triage Output](docs/triage-Recommendation.png)
-
-## Triage Next Steps Recommendation
-
-![Triage Output](docs/Recommended-Next-Steps.png)
+Jenny Varrichio, PhD, PMP
