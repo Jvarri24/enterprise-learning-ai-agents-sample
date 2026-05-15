@@ -1,10 +1,18 @@
+import os
 import streamlit as st
+from openai import OpenAI
 
 st.set_page_config(
     page_title="Learning Intake Triage Agent",
     page_icon="📋",
     layout="wide"
 )
+
+# -----------------------------
+# OpenAI Setup
+# -----------------------------
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # -----------------------------
 # Sidebar
@@ -127,30 +135,14 @@ def calculate_priority_score(
 ):
     score = 0
 
-    urgency_scores = {
-        "Low": 1,
-        "Medium": 2,
-        "High": 3
-    }
-
-    compliance_scores = {
-        "No": 0,
-        "Maybe": 2,
-        "Yes": 3
-    }
-
-    business_impact_scores = {
-        "Low": 1,
-        "Medium": 2,
-        "High": 3
-    }
-
+    urgency_scores = {"Low": 1, "Medium": 2, "High": 3}
+    compliance_scores = {"No": 0, "Maybe": 2, "Yes": 3}
+    business_impact_scores = {"Low": 1, "Medium": 2, "High": 3}
     audience_scores = {
         "Small: under 100": 1,
         "Medium: 100-1,000": 2,
         "Large: 1,000+": 3
     }
-
     stakeholder_scores = {
         "Single team": 1,
         "Cross-functional": 2,
@@ -215,6 +207,54 @@ def determine_escalation(priority, stakeholder_complexity, compliance_risk):
 
 
 # -----------------------------
+# AI Summary
+# -----------------------------
+
+def generate_ai_summary(
+    request,
+    priority,
+    risk_level,
+    timeline,
+    delivery_recommendation
+):
+
+    prompt = f"""
+You are an enterprise learning strategist.
+
+Create a concise executive summary for this fictional training request.
+
+Training Request:
+{request}
+
+Priority:
+{priority}
+
+Risk Level:
+{risk_level}
+
+Recommended Timeline:
+{timeline}
+
+Recommended Delivery:
+{delivery_recommendation}
+
+Include:
+1. Executive Summary
+2. Key Risks
+3. Suggested Next Actions
+
+Keep the tone concise and executive-level.
+"""
+
+    response = client.responses.create(
+        model="gpt-5.2",
+        input=prompt
+    )
+
+    return response.output_text
+
+
+# -----------------------------
 # Results
 # -----------------------------
 
@@ -223,6 +263,7 @@ if st.button("Analyze Request", type="primary"):
     if not request.strip():
         st.warning("Please enter a training request before analyzing.")
     else:
+
         score = calculate_priority_score(
             audience_size,
             urgency,
@@ -232,17 +273,21 @@ if st.button("Analyze Request", type="primary"):
         )
 
         priority = determine_priority(score)
+
         risk_level = determine_risk_level(
             compliance_risk,
             stakeholder_complexity,
             urgency
         )
+
         timeline = recommend_timeline(priority, compliance_risk)
+
         delivery_recommendation = recommend_delivery(
             requested_delivery,
             audience_size,
             compliance_risk
         )
+
         escalation_required = determine_escalation(
             priority,
             stakeholder_complexity,
@@ -250,6 +295,7 @@ if st.button("Analyze Request", type="primary"):
         )
 
         st.markdown("---")
+
         st.header("Triage Recommendation")
 
         metric_col1, metric_col2, metric_col3 = st.columns(3)
@@ -269,27 +315,19 @@ if st.button("Analyze Request", type="primary"):
         st.write(f"**Recommended Delivery:** {delivery_recommendation}")
         st.write(f"**Escalation Required:** {escalation_required}")
 
-        st.subheader("Intake Summary")
+        st.subheader("AI-Generated Executive Summary")
 
-        st.write(f"**Audience:** {audience_size}")
-        st.write(f"**Urgency:** {urgency}")
-        st.write(f"**Compliance Risk:** {compliance_risk}")
-        st.write(f"**Business Impact:** {business_impact}")
-        st.write(f"**Stakeholder Complexity:** {stakeholder_complexity}")
+        if not os.getenv("OPENAI_API_KEY"):
+            st.error("OpenAI API key not found.")
+        else:
+            with st.spinner("Generating executive summary..."):
 
-        st.subheader("Recommended Next Steps")
+                ai_summary = generate_ai_summary(
+                    request,
+                    priority,
+                    risk_level,
+                    timeline,
+                    delivery_recommendation
+                )
 
-        next_steps = [
-            "Clarify the measurable business outcome.",
-            "Confirm target audience and learner population.",
-            "Identify required stakeholders and approvers.",
-            "Validate compliance, reporting, and audit requirements.",
-            "Determine delivery modality and implementation timeline."
-        ]
-
-        for step in next_steps:
-            st.write(f"- {step}")
-
-        st.success(
-            "Analysis complete. This simulated recommendation can be used as a starting point for learning intake prioritization."
-        )
+                st.write(ai_summary)
