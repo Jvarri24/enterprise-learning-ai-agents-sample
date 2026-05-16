@@ -1,0 +1,9 @@
+Department,CompletionRate,OverdueTraining,RiskLevel,LearnerCount
+Customer Support,92,14,Medium,1200
+Claims Operations,76,84,High,950
+Sales Enablement,88,22,Medium,640
+Behavioral Health,97,4,Low,410
+Pharmacy Operations,69,112,High,1300
+IT Support,95,8,Low,520
+Provider Services,81,41,Medium,780
+Compliance,99,1,Low,150

@@ -45,3 +45,15 @@ Features include:
 
 ![AI Generated Executive Brief](docs/screenshots/AI-generated-brief.png)
 
+## Learning-Insights-Agent
+
+![Learning Insights Agent](docs/screenshots/Learning-Inisights-Agent.png)
+
+## Completion-Rates-By-Department
+
+![AI Generated Executive Brief](docs/screenshots/Completion-Rates-By-Department.png)
+
+## Overdue-Training-Volume
+
+![Overdue-Training-Volume](docs/screenshots/Overdue-Training-Volume.png)
+
