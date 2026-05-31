@@ -1,5 +1,6 @@
 import os
 import streamlit as st
+import pandas as pd
 from openai import OpenAI
 
 st.set_page_config(
@@ -12,7 +13,10 @@ st.set_page_config(
 # OpenAI Setup
 # -----------------------------
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = None
+
+if os.getenv("OPENAI_API_KEY"):
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # -----------------------------
 # Sidebar
@@ -341,5 +345,39 @@ if st.button("Analyze Request", type="primary"):
                 st.caption(
                     "Note: This AI-generated brief is based on synthetic portfolio data and should be reviewed by a human before use."
                 )
+# ----------------------------------
+# Save Intake Request
+# ----------------------------------
 
+st.divider()
+
+if st.button("Submit Intake Request"):
+
+    export_record = {
+        "Request": request,
+        "Audience Size": audience_size,
+        "Urgency": urgency,
+        "Business Impact": business_impact,
+        "Compliance Risk": compliance_risk,
+        "Stakeholder Complexity": stakeholder_complexity,
+    }
+
+    df_new = pd.DataFrame([export_record])
+
+    file_path = "intake_request_log.csv"
+
+    if os.path.exists(file_path):
+        df_existing = pd.read_csv(file_path)
+        df_updated = pd.concat([df_existing, df_new], ignore_index=True)
+    else:
+        df_updated = df_new
+
+    df_updated.to_csv(file_path, index=False)
+
+    st.success("Intake request saved successfully.")
+
+    if os.path.exists("intake_request_log.csv"):
+    st.subheader("Saved Intake Requests")
+    saved_requests = pd.read_csv("intake_request_log.csv")
+    st.dataframe(saved_requests, use_container_width=True)
     
